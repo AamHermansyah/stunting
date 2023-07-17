@@ -1,6 +1,8 @@
+'use client';
+
 import React from 'react';
-import Chart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
+import ReactApexChart from '@/components/core/ReactApexCharts';
 
 const data = {
   labels: [
@@ -118,7 +120,12 @@ const StuntingChart = () => {
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold sm:mb-10">
         Grafik Perkembangan Stunting Di Tasikmalaya
       </h1>
-      <Chart type={'bar'} height={400} options={options} series={data.series} />
+      <ReactApexChart
+        type="bar"
+        height={400}
+        options={options}
+        series={data.series}
+      />
     </div>
   );
 };
