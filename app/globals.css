@@ -77,3 +77,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply rounded bg-gray-100;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply rounded bg-teal-200;
+  }
+}
