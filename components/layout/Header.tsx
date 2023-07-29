@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link'
 import React from 'react'
 
@@ -9,7 +11,7 @@ function Header() {
           <Link href="/" className="text-primary">Stunting App</Link>
         </div>
         <nav className="hidden text-sm font-semibold sm:flex items-center gap-10">
-          <Link href="/">Cek Stunting</Link>
+          <Link href="/cek-stunting">Cek Stunting</Link>
           <Link href="/">Konsultasi</Link>
           <Link href="/">Artikel</Link>
         </nav>
