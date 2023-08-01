@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { EMAIL_SERVICE } from "@/constants";
 
 const formSchema = z.object({
   fullname: z.string().min(2, {
@@ -35,7 +36,13 @@ function ContactForm() {
   })
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+    const { fullname, email, subject, message } = data;
+    const mailtoString = `mailto:${EMAIL_SERVICE}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(
+      `Name: ${fullname}\nEmail: ${email}\n\n${message}`
+    )}`;
+    window.location.href = mailtoString;
   };
 
   return (

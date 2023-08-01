@@ -18,10 +18,11 @@ type typeProps = {
 }
 
 export function DatePicker({ onChange }: typeProps) {
-  const [date, setDate] = React.useState<Date>()
+  const [date, setDate] = React.useState<Date>();
+  const [openCalendar, setOpenCalendar] = React.useState(false);
 
   return (
-    <Popover>
+    <Popover open={openCalendar} onOpenChange={setOpenCalendar}>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
@@ -44,6 +45,11 @@ export function DatePicker({ onChange }: typeProps) {
           }}
           initialFocus
         />
+        <div className="w-full flex justify-end px-4 pb-4">
+          <Button disabled={!date} onClick={() => setOpenCalendar(false)}>
+            Save
+          </Button>
+        </div>
       </PopoverContent>
     </Popover>
   )

@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/dialog"
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { kecamatanList } from "@/constants";
 
 const formSchema = z.object({
   fullname: z.string().min(2, {
@@ -60,7 +61,6 @@ const formSchema = z.object({
 
 const StuntingCheckForm = () => {
   const [modalOpen, setModalOpen] = useState(false);
-
   const navigate = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -97,14 +97,14 @@ const StuntingCheckForm = () => {
         </DialogContent>
       </Dialog>
 
-      <div className="w-full md:grid grid-cols-12 px-0 lg:px-10 py-10">
+      <div className="w-full md:grid grid-cols-12 px-0 py-10">
         <div className="col-span-6 lg:col-span-5 flex flex-col justify-center mb-10 md:mb-0">
           <h2 className="text-2xl md:text-4xl font-bold">Cek Status Stunting</h2>
           <p className="font-light mt-4 mb-6">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem ducimus corporis veniam porro, earum praesentium excepturi illum, nihil explicabo enim quos accusamus cum ratione quam aperiam temporibus tenetur quidem voluptate!
+            Mari bersama-sama mencegah stunting dan memastikan pertumbuhan anak-anak kita yang sehat dan optimal. Cegah stunting dengan memberikan pola makan yang seimbang dan bergizi tinggi, yang terdiri dari makanan yang kaya akan vitamin dan mineral. Pastikan juga anak-anak kita mendapatkan ASI eksklusif selama enam bulan pertama kehidupan mereka. 
           </p>
         </div>
-        <div className="col-span-6 lg:col-span-7 min-h-[450px] overflow-y-auto pl-4 md:pl-10 pr-2 custom-scrollbar">
+        <div className="max-w-[600px] col-span-6 lg:col-span-7 min-h-[450px] overflow-y-auto pl-4 md:pl-10 pr-2 custom-scrollbar">
           {/* @ts-ignore */}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-2 gap-2">
@@ -142,11 +142,17 @@ const StuntingCheckForm = () => {
                             <SelectTrigger>
                               <SelectValue placeholder="Pilih Kecamatan" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="max-h-[160px]">
                               <SelectGroup>
                                 <SelectLabel>Kecamatan</SelectLabel>
-                                <SelectItem value="kahuripan">Kahuripan</SelectItem>
-                                <SelectItem value="ciamis">Ciamis</SelectItem>
+                                {kecamatanList.map((item) => (
+                                  <SelectItem 
+                                    value={item.value}
+                                    key={item.id}
+                                  >
+                                    {item.label}
+                                  </SelectItem>
+                                ))}
                               </SelectGroup>
                             </SelectContent>
                           </Select>
@@ -197,7 +203,7 @@ const StuntingCheckForm = () => {
                   name="weight"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Berat Badan (cm)</FormLabel>
+                      <FormLabel>Berat Badan (kg)</FormLabel>
                       <FormControl>
                         <Input type="number" placeholder="0 kg" {...field} />
                       </FormControl>
