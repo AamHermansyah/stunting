@@ -1,5 +1,6 @@
 'use client'
 
+import BackButton from '@/components/BackButton'
 import Article from '@/components/pages/cek-stunting/hasil/Article'
 import Chart from '@/components/pages/cek-stunting/hasil/Chart'
 import Description from '@/components/pages/cek-stunting/hasil/Description'
@@ -9,7 +10,8 @@ import React from 'react'
 
 function page() {
   return (
-    <div className="py-4">
+    <div>
+      <BackButton />
       <div className="grid lg:grid-cols-12 gap-10 sm:mt-4">
         <div className="lg:col-span-5">
           <ResultCheck />

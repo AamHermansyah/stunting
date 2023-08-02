@@ -83,11 +83,15 @@
     width: 5px;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-track {
+  .custom-scrollbar-x::-webkit-scrollbar {
+    height: 5px;
+  }
+
+  :is(.custom-scrollbar, .custom-scrollbar-x)::-webkit-scrollbar-track {
     @apply rounded bg-gray-100;
   }
 
-  .custom-scrollbar::-webkit-scrollbar-thumb {
+  :is(.custom-scrollbar, .custom-scrollbar-x)::-webkit-scrollbar-thumb {
     @apply rounded bg-teal-200;
   }
 }

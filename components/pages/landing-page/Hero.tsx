@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 const Hero = () => {
   return (
@@ -11,9 +12,16 @@ const Hero = () => {
           <p className="sm:text-lg">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio in iusto perferendis corrupti fugiat rerum ut, voluptates possimus temporibus autem.
           </p>
-          <Button className="w-max">Cek Stunting</Button>
+          <Button href="/cek-stunting" className="w-max">Cek Stunting</Button>
         </div>
-        <div className="w-full aspect-video bg-gray-300 rounded mt-10 md:mt-0"></div>
+        <div className="relative w-full aspect-video bg-gray-300 rounded mt-10 md:mt-0">
+          <Image 
+            src="/hero.jpg" 
+            alt="hero" 
+            fill={true} 
+            className="object-cover" 
+          />
+        </div>
       </div>
     </section>
   )

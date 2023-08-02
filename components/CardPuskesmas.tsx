@@ -1,11 +1,19 @@
 import { Button } from '@/components/ui/button'
 import { IoLocationSharp } from 'react-icons/io5'
 import { AiFillStar } from 'react-icons/ai'
+import Image from 'next/image'
 
 function CardPuskesmas() {
   return (
     <div className="border rounded overflow-hidden">
-      <div className="w-full aspect-video bg-gray-100"></div>
+      <div className="relative w-full aspect-video bg-gray-100 overflow-hidden">
+        <Image
+          src="/puskesmas-1.jpg" 
+          alt="hero" 
+          fill={true} 
+          className="object-cover" 
+        />
+      </div>
       <div className="p-4">
         <h2 className="text-lg font-bold">Puskesmas Kawalu</h2>
         <span className="flex text-sm gap-2 text-gray-500">

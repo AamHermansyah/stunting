@@ -3,10 +3,21 @@
 import { navigation } from '@/constants';
 import { cn } from '@/lib/utils';
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation';
-import React from 'react'
+import { usePathname } from 'next/navigation';
+import React, { useState } from 'react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { HiMenu } from 'react-icons/hi'
+import { IoMdClose } from 'react-icons/io'
 
 function Header() {
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
   return (
@@ -26,6 +37,27 @@ function Header() {
             </Link>
           ))}
         </nav>
+        <div className="block sm:hidden">
+          <DropdownMenu open={open} onOpenChange={setOpen}>
+            <DropdownMenuTrigger>
+              {open ? <IoMdClose fontSize={24} /> : <HiMenu fontSize={24} />}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Navigasi</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {navigation.map((item) => (
+                <DropdownMenuItem key={item.id}>
+                  <Link
+                    href={item.href} 
+                    className={pathname.includes(item.href) ? 'text-primary' : ''}
+                  >
+                    {item.title}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     </header>
   )

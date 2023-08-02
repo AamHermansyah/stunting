@@ -1,5 +1,4 @@
 import CardArtikel from '@/components/CardArtikel'
-import Link from 'next/link'
 import React from 'react'
 
 function Article() {
