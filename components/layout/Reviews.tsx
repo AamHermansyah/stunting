@@ -1,8 +1,32 @@
 /* eslint-disable @next/next/no-img-element */
+'use client';
 import {AiFillStar, AiOutlineStar} from "react-icons/ai"
 import {BsBoxArrowDownLeft} from "react-icons/bs"
+import { useState } from "react";
 
 const Reviews = () => {
+  const [rating, setRating] = useState(0)
+
+  const handleRatingClick = (selectedRating: number) => {
+    setRating(selectedRating);
+  };
+
+  const renderStars = (numStars: number) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        i <= numStars ? (
+          <AiFillStar key={i} size={30} onClick={() => handleRatingClick(i)} />
+        ) : (
+          <AiOutlineStar key={i} size={30} onClick={() => handleRatingClick(i)} />
+        )
+      );
+    }
+    return stars;
+  };
+
+
+
   return (
     <div className="flex flex-col w-full h-auto mt-8 p-6">
       <div className="flex items-center ">
@@ -65,11 +89,7 @@ const Reviews = () => {
                 Tuliskan Ulasan Anda
               </h2>
               <div className="flex gap-1 items-center text-primary mt-4">
-              <AiOutlineStar size={30}/>
-              <AiOutlineStar size={30}/>
-              <AiOutlineStar size={30}/>
-              <AiOutlineStar size={30}/>
-              <AiOutlineStar size={30}/>
+              {renderStars(rating)}
             </div>
             </div>
             <form className="mb-6">
