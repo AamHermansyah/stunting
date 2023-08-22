@@ -29,8 +29,8 @@ function Header() {
         <nav className="hidden text-sm font-semibold sm:flex items-center gap-10">
           {navigation.map((item) => (
             <Link
-              key={item.id} 
-              href={item.href} 
+              key={item.id}
+              href={item.href}
               className={cn('hover:text-primary', pathname.includes(item.href) ? 'text-primary' : 'hover:underline hover:underline-offset-4')}
             >
               {item.title}
@@ -42,13 +42,13 @@ function Header() {
             <DropdownMenuTrigger>
               {open ? <IoMdClose fontSize={24} /> : <HiMenu fontSize={24} />}
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="w-[200px] -translate-x-2">
               <DropdownMenuLabel>Navigasi</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {navigation.map((item) => (
                 <DropdownMenuItem key={item.id}>
                   <Link
-                    href={item.href} 
+                    href={item.href}
                     className={pathname.includes(item.href) ? 'text-primary' : ''}
                   >
                     {item.title}
