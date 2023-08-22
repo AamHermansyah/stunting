@@ -1,6 +1,7 @@
 'use client'
 
 import BackButton from '@/components/BackButton'
+import Reviews from '@/components/layout/Reviews'
 import Description from '@/components/pages/puskesmas/Description'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
@@ -62,6 +63,7 @@ function page() {
         </span>
         <div className="pt-4">
           <Description />
+          <Reviews/>
         </div>
       </div>
     </div>
