@@ -2,6 +2,7 @@
 
 import BackButton from '@/components/BackButton'
 import GoogleMaps from '@/components/core/GoogleMaps'
+import Reviews from '@/components/layout/Reviews'
 import Description from '@/components/pages/puskesmas/Description'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
@@ -65,6 +66,7 @@ function page() {
         </div>
         <div className="pt-4">
           <Description />
+          <Reviews/>
         </div>
         <div className="py-10">
           <h1 className="text-xl font-semibold py-2">Lokasi Puskesmas</h1>
