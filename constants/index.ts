@@ -46,6 +46,7 @@ export const kecamatanList = [
 ];
 
 export const artikelKategoriList = [
+  { id: 0, value: '', label: 'Semua' },
   { id: 1, value: 'gaya hidup', label: 'Gaya Hidup' },
   { id: 2, value: 'pola makan', label: 'Pola Makan' },
   { id: 3, value: 'nutrisi', label: 'Nutrisi' },

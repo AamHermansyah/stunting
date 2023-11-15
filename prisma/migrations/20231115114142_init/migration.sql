@@ -6,7 +6,7 @@ CREATE TABLE `article` (
     `category` VARCHAR(191) NOT NULL,
     `tags` VARCHAR(191) NOT NULL,
     `content` LONGTEXT NOT NULL,
-    `image` LONGBLOB NOT NULL,
+    `image` LONGTEXT NOT NULL,
     `alt_image` VARCHAR(191) NOT NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 

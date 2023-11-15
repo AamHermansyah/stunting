@@ -10,17 +10,22 @@ import { useEffect, useState } from 'react'
 import { Article, PageInfo } from './index.types'
 import { FaFaceSadCry } from 'react-icons/fa6'
 import { ImSpinner6 } from 'react-icons/im'
+import DelayedInput from '@/components/core/DelayedInput'
 
 function ArticlePage() {
   const [articles, setArticles] = useState<Article[] | null>(null);
   const [pageInfo, setPageInfo] = useState<PageInfo | null>(null);
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('');
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
     setLoading(true);
+    const searchQuery = search !== '' ? `search=${search}` : '';
+    const categoryQuery = category !== '' ? `&category=${category}` : '';
 
-    fetch('/api/article', {
+    fetch(`/api/article?${searchQuery}${categoryQuery}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -49,7 +54,7 @@ function ArticlePage() {
           variant: 'destructive'
         });
       })
-  }, []);
+  }, [search, category]);
 
   return (
     <div className="py-4">
@@ -61,10 +66,21 @@ function ArticlePage() {
       </div>
       <div className="my-2 max-w-2xl grid grid-cols-1 sm:grid-cols-4 gap-x-4 gap-y-2">
         <div className="sm:col-span-2">
-          <Input placeholder="Cari disini..." name="search" />
+          <DelayedInput
+            placeholder="Cari disini..."
+            onChange={(value) => {
+              setSearch(value);
+              setArticles(null);
+            }}
+          />
         </div>
         <div className="sm:col-span-2">
-          <Select>
+          <Select
+            onValueChange={(value) => {
+              setCategory(value);
+              setArticles(null);
+            }}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Pilih Kategori" />
             </SelectTrigger>
@@ -85,7 +101,7 @@ function ArticlePage() {
         </div>
       </div>
 
-      {articles !== null && (
+      {articles !== null && !loading && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-4">
           {articles.map((item) => (
             <CardArtikel data={item} key={item.id} />
@@ -99,7 +115,7 @@ function ArticlePage() {
         </div>
       )}
 
-      {articles?.length === 0 && (
+      {articles?.length === 0 && !loading && (
         <div className="py-20 space-y-10">
           <FaFaceSadCry fontSize={70} className="mx-auto text-gray-500" />
           <p className="text-center">Artikel tidak ditemukan!</p>

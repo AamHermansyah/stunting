@@ -22,15 +22,15 @@ function CardArtikel({ data }: propTypes) {
         <div className="flex items-center gap-2 mt-4 mb-2">
           <div className="relative w-10 aspect-square rounded-full border-2 bg-gray-100 overflow-hidden">
             <Image
-              src="/vercel.svg"
-              alt="logo"
+              src="/profile.jpg"
+              alt={data.alt_image}
               fill={true}
-              className="object-contain"
+              className="object-cover"
             />
           </div>
           <div>
             <span className="block font-bold text-xs sm:text-sm text-gray-600">
-              Aam Hermansyah
+              Admin
             </span>
             <span className="block text-xs sm:text-sm text-gray-400">
               Senin, 12 Juli 2023 08:23

@@ -14,7 +14,7 @@ model article {
   category   String
   tags       String
   content    String   @db.LongText
-  image      Bytes
+  image      String   @db.LongText
   alt_image  String
   created_at DateTime @default(now())
 }

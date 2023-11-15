@@ -70,15 +70,15 @@ function ArticleDetail() {
             <div className="flex items-center gap-4 mt-4 mb-2">
               <div className="relative w-16 sm:w-20 aspect-square rounded-full border-2 bg-gray-100 overflow-hidden">
                 <Image
-                  src="/vercel.svg"
-                  alt="logo"
+                  src="/profile.jpg"
+                  alt={article.alt_image}
                   fill={true}
                   className="object-contain"
                 />
               </div>
               <div>
                 <span className="block font-bold text-sm sm:text-lg text-gray-600">
-                  Aam Hermansyah
+                  Admin
                 </span>
                 <span className="block text-xs sm:text-base text-gray-400">
                   {formatCreatedAt(article.created_at)}

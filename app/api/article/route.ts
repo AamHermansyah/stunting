@@ -5,15 +5,10 @@ import { Buffer } from 'buffer'
 export async function POST(req: Request) {
   const data = await req.json();
 
-  const base64Header = 'data:image/jpeg;base64,';
-  const base64WithoutHeader = data.image.slice(base64Header.length);
-  const imageBuffer = Buffer.from(base64WithoutHeader, 'base64');
-
   try {
     const createdResume = await prisma.article.create({
       data: {
         ...data,
-        image: imageBuffer
       },
     });
 
@@ -62,6 +57,17 @@ export async function GET(req: Request) {
       },
       take: parsedPageSize,
       skip: offset,
+      select: {
+        id: true,
+        title: true,
+        summary: true,
+        category: true,
+        tags: true,
+        image: true,
+        alt_image: true,
+        created_at: true,
+        content: false,
+      }
     });
 
     const totalArticles = await prisma.article.count({
@@ -75,13 +81,7 @@ export async function GET(req: Request) {
     const isLastData = (parsedPage * parsedPageSize) >= totalArticles;
 
     return new Response(json({
-      data: articles.map((article) => {
-        const base64Image = article.image ? `data:image/jpeg;base64,${article.image.toString('base64')}` : null;
-        return {
-          ...article,
-          image: base64Image,
-        };
-      }),
+      data: articles,
       pageInfo: {
         currentPage: parsedPage,
         pageSize: parsedPageSize,

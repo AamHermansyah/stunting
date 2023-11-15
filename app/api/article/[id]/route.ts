@@ -19,12 +19,9 @@ export async function GET(req: Request) {
       return new Response(json({ message: 'Article not found', status: 404 }), { status: 404 });
     }
 
-    const base64Image = article.image ? `data:image/jpeg;base64,${article.image.toString('base64')}` : null;
-
     const responseData = {
       data: {
         ...article,
-        image: base64Image,
       },
       status: 200
     };
