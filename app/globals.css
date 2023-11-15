@@ -76,6 +76,14 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  #article-detail ol {
+    @apply list-decimal list-inside;
+  }
+
+  #article-detail ul {
+    @apply list-disc list-inside;
+  }
 }
 
 @layer components {
@@ -92,6 +100,6 @@
   }
 
   :is(.custom-scrollbar, .custom-scrollbar-x)::-webkit-scrollbar-thumb {
-    @apply rounded bg-teal-200;
+    @apply rounded bg-gray-200;
   }
 }

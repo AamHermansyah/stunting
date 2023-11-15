@@ -46,13 +46,22 @@ export const kecamatanList = [
 ];
 
 export const artikelKategoriList = [
-  { id: 1, value: 'gaya_hidup', label: 'Gaya Hidup' },
-  { id: 2, value: 'pola_makan', label: 'Pola Makan' },
+  { id: 1, value: 'gaya hidup', label: 'Gaya Hidup' },
+  { id: 2, value: 'pola makan', label: 'Pola Makan' },
   { id: 3, value: 'nutrisi', label: 'Nutrisi' },
-  { id: 4, value: 'pertumbuhan_balita', label: 'Pertumbuhan Balita' },
-  { id: 5, value: 'ibu_hamil', label: 'Ibu Hamil dan Menyusui' },
-  { id: 6, value: 'gizi_anak', label: 'Gizi Anak' },
-  { id: 7, value: 'penyakit_terkait_stunting', label: 'Penyakit Terkait Stunting' },
+  { id: 4, value: 'pertumbuhan balita', label: 'Pertumbuhan Balita' },
+  { id: 5, value: 'ibu hamil', label: 'Ibu Hamil dan Menyusui' },
+  { id: 6, value: 'gizi anak', label: 'Gizi Anak' },
+  { id: 7, value: 'penyakit terkait stunting', label: 'Penyakit Terkait Stunting' },
+];
+
+export const tagsArticle = [
+  { label: "Gizi", id: "gizi", value: "gizi" },
+  { label: "Penyakit", id: "penyakit", value: "penyakit" },
+  { label: "Olahraga", id: "olahraga", value: "olahraga" },
+  { label: "Kesehatan Mental", id: "kesehatan mental", value: "kesehatan mental" },
+  { label: "Pengobatan", id: "pengobatan", value: "pengobatan" },
+  { label: "Kesehatan Keluarga", id: "kesehatan keluarga", value: "kesehatan keluarga" }
 ];
 
 export const EMAIL_SERVICE = 'stunting@support.app.id'
