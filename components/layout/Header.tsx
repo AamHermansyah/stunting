@@ -15,10 +15,24 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { HiMenu } from 'react-icons/hi'
 import { IoMdClose } from 'react-icons/io'
+import { Button } from '../ui/button';
+import useUserStore from '@/stores/userStore';
+import { useToast } from '../ui/use-toast';
 
 function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const { user, removeUserAndToken } = useUserStore();
+  const { toast } = useToast();
+
+  const handleLogout = () => {
+    removeUserAndToken();
+    toast({
+      title: 'Logout berhasil!',
+      description: 'Silahkan login kembali untuk menggunakan fitur admin!',
+      variant: 'destructive'
+    });
+  }
 
   return (
     <header className="fixed left-0 top-0 w-full z-50 bg-white shadow-md">
@@ -36,13 +50,18 @@ function Header() {
               {item.title}
             </Link>
           ))}
+          {user && (
+            <Button onClick={handleLogout} className="bg-destructive text-destructive-foreground hover:bg-destructive">
+              Logout
+            </Button>
+          )}
         </nav>
         <div className="block sm:hidden">
           <DropdownMenu open={open} onOpenChange={setOpen}>
             <DropdownMenuTrigger>
               {open ? <IoMdClose fontSize={24} /> : <HiMenu fontSize={24} />}
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[200px] -translate-x-2">
+            <DropdownMenuContent className="block sm:hidden w-[200px] -translate-x-2">
               <DropdownMenuLabel>Navigasi</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {navigation.map((item) => (
@@ -55,6 +74,13 @@ function Header() {
                   </Link>
                 </DropdownMenuItem>
               ))}
+              <DropdownMenuItem>
+                {user && (
+                  <Button size="sm" onClick={handleLogout} className="w-full bg-destructive text-destructive-foreground hover:bg-destructive">
+                    Logout
+                  </Button>
+                )}
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

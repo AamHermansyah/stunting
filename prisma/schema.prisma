@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model article {
+model Article {
   id         Int      @id @default(autoincrement())
   title      String
   summary    String
@@ -17,4 +17,17 @@ model article {
   image      String   @db.LongText
   alt_image  String
   created_at DateTime @default(now())
+  author     User     @relation(fields: [authorId], references: [id])
+  authorId   Int
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  name       String
+  image      String    @db.LongText
+  email      String    @unique
+  password   String
+  role       String    @default("user")
+  created_at DateTime  @default(now())
+  Article    Article[]
 }

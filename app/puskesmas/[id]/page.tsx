@@ -4,6 +4,7 @@ import BackButton from '@/components/BackButton'
 import GoogleMaps from '@/components/core/GoogleMaps'
 import Reviews from '@/components/layout/Reviews'
 import Description from '@/components/pages/puskesmas/Description'
+import ShowImages from '@/components/pages/puskesmas/ShowImages'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -17,7 +18,7 @@ function page() {
   return (
     <div>
       <BackButton />
-      <div className="relative h-[250px] sm:h-[300px] rounded-lg overflow-hidden">
+      {/* <div className="relative h-[250px] sm:h-[300px] rounded-lg overflow-hidden">
         <Image
           src="/puskesmas-1.jpg"
           alt="puskesmas"
@@ -43,8 +44,9 @@ function page() {
             </Link>
           </div>
         </div>
-      </div>
-      <div className="relative -top-14 space-y-2">
+      </div> */}
+      <ShowImages />
+      <div className="relative -top-14 space-y-2 z-[1]">
         <div className="flex justify-between items-end">
           <div className="ml-4 sm:ml-10 relative w-28 sm:w-32 aspect-square rounded-full border-[6px] sm:border-[8px] border-white bg-gray-100 overflow-hidden">
             <Image
@@ -65,8 +67,14 @@ function page() {
           </span>
         </div>
         <div className="pt-4">
-          <Description />
-          <Reviews/>
+          {/* <Description /> */}
+          <h1 className="text-xl font-semibold py-2">Deskripsi</h1>
+          <div id="article-detail">
+            <p>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Earum, iure aspernatur culpa in ullam fuga. Similique libero magnam hic nam quam, magni debitis aliquam iusto velit quis totam eaque nisi architecto et dolorum. Dolorem similique consectetur assumenda laborum harum porro tempora voluptate quae labore neque aspernatur eum, corrupti nesciunt quis quibusdam? Mollitia illo itaque doloremque fugiat qui doloribus provident esse quisquam! Veniam omnis, commodi recusandae vel corporis fuga itaque adipisci nostrum tenetur, laborum sequi veritatis voluptas est aliquam. Laudantium assumenda autem cupiditate error accusamus officiis quas minus, exercitationem impedit odio quos commodi laboriosam quibusdam obcaecati aliquid, suscipit iure, ipsa molestiae.
+            </p>
+          </div>
+          <Reviews />
         </div>
         <div className="py-10">
           <h1 className="text-xl font-semibold py-2">Lokasi Puskesmas</h1>

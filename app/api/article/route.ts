@@ -1,14 +1,53 @@
 import { json } from '@/lib/json'
 import { prisma } from '@/db'
-import { Buffer } from 'buffer'
+import { verify, JwtPayload } from 'jsonwebtoken';
 
 export async function POST(req: Request) {
   const data = await req.json();
+  let token = req.headers.get('Authorization') || '';
+
+  let userId;
+  let expirationTime;
 
   try {
+    const decodedToken = verify(token.replace('Bearer ', ''), process.env.NEXT_PUBLIC_JWT_SECRET_KEY as string) as JwtPayload;
+    userId = decodedToken.userId;
+    expirationTime = decodedToken.exp; // Waktu kadaluarsa dalam bentuk timestamp
+  } catch (error) {
+    console.log(error);
+    return new Response(json({ message: 'Invalid token', status: 401 }));
+  }
+
+  // 2. Periksa apakah waktu kadaluarsa telah lewat
+  const currentTime = Math.floor(Date.now() / 1000); // Waktu saat ini dalam bentuk timestamp
+  if (expirationTime && expirationTime < currentTime) {
+    return new Response(json({ message: 'Token has expired', status: 401 }));
+  }
+
+  // 3. Dapatkan data pengguna dari basis data berdasarkan ID
+  let userData;
+  try {
+    userData = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return new Response(json({ message: 'Error retrieving user data', status: 500 }));
+  }
+
+  // 4. Periksa apakah role yang ditemukan adalah "admin"
+  if (userData && userData.role !== 'admin') {
+    return new Response(json({ message: 'Unauthorized', status: 403 }));
+  }
+
+  try {
+    // 5. Jika ya, lanjutkan proses
     const createdResume = await prisma.article.create({
       data: {
         ...data,
+        authorId: userId,
       },
     });
 
@@ -35,7 +74,7 @@ export async function GET(req: Request) {
   const category = searchParams.get('category') || '';
 
   const parsedPage = page ? parseInt(page, 10) : 1;
-  const parsedPageSize = pageSize ? parseInt(pageSize, 10) : 10;
+  const parsedPageSize = pageSize ? parseInt(pageSize, 10) : 8;
   const offset = (parsedPage - 1) * parsedPageSize;
 
   const searchQuery = {
@@ -67,6 +106,15 @@ export async function GET(req: Request) {
         alt_image: true,
         created_at: true,
         content: false,
+        author: {
+          select: {
+            id: true,
+            email: true,
+            image: true,
+            name: true
+          }
+        },
+        authorId: true
       }
     });
 

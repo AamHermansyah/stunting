@@ -1,4 +1,5 @@
-import { Article } from '@/app/artikel/index.types'
+import { Article } from '@/index.types'
+import { formatCreatedAt } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -22,18 +23,18 @@ function CardArtikel({ data }: propTypes) {
         <div className="flex items-center gap-2 mt-4 mb-2">
           <div className="relative w-10 aspect-square rounded-full border-2 bg-gray-100 overflow-hidden">
             <Image
-              src="/profile.jpg"
-              alt={data.alt_image}
+              src={data.author.image}
+              alt={data.author.name}
               fill={true}
               className="object-cover"
             />
           </div>
           <div>
             <span className="block font-bold text-xs sm:text-sm text-gray-600">
-              Admin
+              {data.author.name}
             </span>
             <span className="block text-xs sm:text-sm text-gray-400">
-              Senin, 12 Juli 2023 08:23
+              {formatCreatedAt(data.created_at)}
             </span>
           </div>
         </div>

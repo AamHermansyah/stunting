@@ -77,12 +77,20 @@
     @apply bg-background text-foreground;
   }
 
+  #article-detail p {
+    text-align: justify;
+  }
+
   #article-detail ol {
     @apply list-decimal list-inside;
   }
 
   #article-detail ul {
     @apply list-disc list-inside;
+  }
+
+  #article-detail img {
+    @apply mx-auto;
   }
 }
 

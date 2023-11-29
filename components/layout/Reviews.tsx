@@ -16,12 +16,12 @@ const Reviews = () => {
 
   return (
     <div className="mt-14">
-      <h2 className="sm:text-2xl text-lg font-semibold">Rating dan Ulasan</h2>
+      <h1 className="text-xl font-semibold py-2">Rating dan Ulasan</h1>
 
-      <div className="grid grid-cols-2 mt-10 place-items-center">
-        <div className="flex flex-col items-center justify-center space-y-2">
-          <h1 className="text-7xl font-black text-primary">4,0</h1>
-          <div className="flex gap-1 items-center text-orange-400 text-4xl">
+      <div className="flex flex-col sm:flex-row mt-4 place-items-center gap-4">
+        <div className="basis-[50%] flex flex-col items-center justify-center space-y-2">
+          <h1 className="text-6xl md:text-7xl font-black text-primary">4,0</h1>
+          <div className="flex gap-1 items-center text-orange-400 text-3xl sm:text-4xl">
             <AiFillStar />
             <AiFillStar />
             <AiFillStar />
@@ -33,7 +33,7 @@ const Reviews = () => {
           </h4>
         </div>
 
-        <div className="w-full">
+        <div className="basis-[50%] w-full">
           {[5, 4, 3, 2, 1].map((rate) => (
             <div key={rate} className="w-full flex items-center gap-4">
               <span className="font-semibold text-lg text-muted-foreground">{rate}</span>
@@ -46,8 +46,8 @@ const Reviews = () => {
       </div>
 
       <section className="bg-white py-8 lg:py-16">
-        <div className="w-full grid grid-cols-2 gap-4">
-          <div className="space-y-8 max-h-[600px] overflow-y-auto custom-scrollbar">
+        <div className="w-full flex flex-col-reverse md:flex-row gap-4">
+          <div className="md:basis-[50%] space-y-8 md:max-h-[600px] overflow-y-auto custom-scrollbar">
             {data.map((name) => (
               <div key={name}>
                 <div className="w-full flex items-center gap-4 text-lg text-gray-900">
@@ -84,7 +84,7 @@ const Reviews = () => {
             ))}
             <Button>Muat lebih banyak</Button>
           </div>
-          <div>
+          <div className="md:basis-[50%] ">
             <div className="flex flex-col mb-6">
               <h2 className="text-md lg:text-xl font-bold">
                 Tuliskan Ulasan Anda

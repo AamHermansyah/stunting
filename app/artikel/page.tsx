@@ -2,30 +2,38 @@
 
 import CardArtikel from '@/components/CardArtikel'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useToast } from '@/components/ui/use-toast'
 import { artikelKategoriList } from '@/constants'
 import { useEffect, useState } from 'react'
-import { Article, PageInfo } from './index.types'
+import { PageInfo } from './index.types'
 import { FaFaceSadCry } from 'react-icons/fa6'
 import { ImSpinner6 } from 'react-icons/im'
 import DelayedInput from '@/components/core/DelayedInput'
+import { Article } from '@/index.types'
+import useUserStore from '@/stores/userStore'
 
 function ArticlePage() {
   const [articles, setArticles] = useState<Article[] | null>(null);
   const [pageInfo, setPageInfo] = useState<PageInfo | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const { user } = useUserStore();
   const { toast } = useToast();
+
+  const handleLoadMore = () => {
+    setCurrentPage((prev) => prev + 1);
+  }
 
   useEffect(() => {
     setLoading(true);
-    const searchQuery = search !== '' ? `search=${search}` : '';
+    const searchQuery = search !== '' ? `&search=${search}` : '';
     const categoryQuery = category !== '' ? `&category=${category}` : '';
 
-    fetch(`/api/article?${searchQuery}${categoryQuery}`, {
+    fetch(`/api/article?page=${currentPage}${searchQuery}${categoryQuery}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -43,7 +51,10 @@ function ArticlePage() {
           return;
         }
 
-        setArticles(res.data);
+        setArticles((prev) => {
+          if (prev) return [...prev, ...res.data];
+          return res.data;
+        });
         setPageInfo(res.pageInfo);
         setLoading(false);
       })
@@ -54,21 +65,24 @@ function ArticlePage() {
           variant: 'destructive'
         });
       })
-  }, [search, category]);
+  }, [search, category, currentPage]);
 
   return (
     <div className="py-4">
       <div className="flex items-end justify-between gap-4 mb-4">
         <h4 className="text-2xl font-bold">Artikel Terbaru</h4>
-        <Button href="/artikel/add" className="inline-flex gap-2 items-center">
-          Tambah Artikel
-        </Button>
+        {user && user.role === 'admin' && (
+          <Button href="/artikel/add" className="inline-flex gap-2 items-center">
+            Tambah Artikel
+          </Button>
+        )}
       </div>
       <div className="my-2 max-w-2xl grid grid-cols-1 sm:grid-cols-4 gap-x-4 gap-y-2">
         <div className="sm:col-span-2">
           <DelayedInput
             placeholder="Cari disini..."
             onChange={(value) => {
+              setCurrentPage(1);
               setSearch(value);
               setArticles(null);
             }}
@@ -77,6 +91,7 @@ function ArticlePage() {
         <div className="sm:col-span-2">
           <Select
             onValueChange={(value) => {
+              setCurrentPage(1);
               setCategory(value);
               setArticles(null);
             }}
@@ -87,6 +102,9 @@ function ArticlePage() {
             <SelectContent className="max-h-[160px]">
               <SelectGroup>
                 <SelectLabel>Kategori</SelectLabel>
+                <SelectItem value="">
+                  Semua
+                </SelectItem>
                 {artikelKategoriList.map((item) => (
                   <SelectItem
                     value={item.value}
@@ -101,7 +119,7 @@ function ArticlePage() {
         </div>
       </div>
 
-      {articles !== null && !loading && (
+      {articles !== null && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-4">
           {articles.map((item) => (
             <CardArtikel data={item} key={item.id} />
@@ -125,7 +143,7 @@ function ArticlePage() {
       {pageInfo && !pageInfo?.isLastData && (
         <div className="text-center">
           <div className="inline-flex mt-10 gap-2">
-            <Button className="inline-flex gap-2 items-center">
+            <Button onClick={handleLoadMore} className="inline-flex gap-2 items-center">
               Load More
             </Button>
           </div>

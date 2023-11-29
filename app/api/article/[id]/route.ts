@@ -13,6 +13,9 @@ export async function GET(req: Request) {
 
     const article = await prisma.article.findUnique({
       where: { id },
+      include: {
+        author: true
+      }
     });
 
     if (!article) {

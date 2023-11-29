@@ -33,6 +33,7 @@ import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { MdDelete } from 'react-icons/md';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import useUserStore from '@/stores/userStore';
 
 const formSchema = z.object({
   title: z.string().min(5, {
@@ -71,6 +72,9 @@ function ArticleAddPage() {
 
   const { toast } = useToast();
   const navigate = useRouter();
+  const { user, token } = useUserStore();
+
+  if (!user || user?.role === 'user') return navigate.push('/');
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     const { image, ...otherData } = data;
@@ -89,29 +93,47 @@ function ArticleAddPage() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
           },
           body: JSON.stringify(dataToSend),
         })
           .then((res) => res.json())
           .then((res) => {
-            if (res.status === 500) {
-              toast({
-                title: 'Error!',
-                description: 'Artikel gagal diunggah. Coba beberapa saat lagi!',
-                variant: 'destructive'
-              });
-              return;
+            console.log(res);
+            switch (res.status) {
+              case 201:
+                toast({
+                  title: 'Berhasil!',
+                  description: 'Artikel berhasil ditambahkan.',
+                  variant: 'success'
+                });
+
+                setTimeout(() => {
+                  navigate.push('/artikel');
+                }, 1000);
+                break;
+              case 500:
+                toast({
+                  title: 'Error!',
+                  description: 'Artikel gagal diunggah. Coba beberapa saat lagi!',
+                  variant: 'destructive'
+                });
+                break;
+              case 403:
+                toast({
+                  title: 'Error!',
+                  description: 'Anda tidak dapat melakukan aksi ini!',
+                  variant: 'destructive'
+                });
+                break;
+              default:
+                toast({
+                  title: 'Error!',
+                  description: res?.message || 'Terjadi kesalahan, coba beberapa saat lagi!',
+                  variant: 'destructive'
+                });
+                break;
             }
-
-            toast({
-              title: 'Berhasil!',
-              description: 'Artikel berhasil ditambahkan.',
-              variant: 'success'
-            });
-
-            setTimeout(() => {
-              navigate.push('/artikel');
-            }, 1000);
           })
           .catch((error) => {
             toast({
