@@ -175,6 +175,7 @@ function ArticleAddPage() {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="title"
@@ -188,11 +189,116 @@ function ArticleAddPage() {
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel className="font-semibold">Kontak</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Silahkan masukan kontak puskesmas..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel className="font-semibold">Jumlah Tenaga Kerja</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Silahkan masukan Jumlah Teanga Kerja puskesmas..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel className="font-semibold">Url Alamat</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Silahkan masukan Url alamat puskesmas..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="image"
               render={({ field }) => (
                 <FormItem className="col-span-2">
+                  <FormLabel className="font-semibold">Foto Profile</FormLabel>
+                  <FormControl>
+                    <div className="relative flex justify-center items-center flex-col border-2 border-dotted border-gray-300 p-3 w-full rounded-md">
+                      {!field.value ? (
+                        // eslint-disable-next-line jsx-a11y/label-has-associated-control
+                        <label className="w-full">
+                          <div className="flex flex-col items-center justify-center h-full">
+                            <div className="h-[200px] flex flex-col justify-center items-center">
+                              <p className="font-bold text-2xl">
+                                <AiOutlineCloudUpload />
+                              </p>
+                              <p className="text-base">Click to upload</p>
+                            </div>
+
+                            <p className="absolute bottom-4 inset-x-0 text-center w-full text-gray-400 text-xs">
+                              Recommendation: Use high-quality JPG, JPEG, SVG, PNG, GIF or TIFF less than 20MB
+                            </p>
+                          </div>
+                          <input
+                            accept="image/*"
+                            type="file"
+                            className="w-0 h-0"
+                            name="image"
+                            onChange={(event) => {
+                              if (event.target.files) {
+                                field.onChange(event.target.files[0]);
+                              }
+                            }}
+                          />
+                        </label>
+                      ) : (
+                        <div className="relative w-full h-full">
+                          <div className="relative w-full h-[200px]">
+                            <Image
+                              src={URL.createObjectURL(field.value)}
+                              alt="uploaded-pic"
+                              fill={true}
+                              className="object-contain"
+                            />
+                          </div>
+                          <button
+                            type="button"
+                            className="absolute bottom-3 right-3 p-3 rounded-full border bg-white text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out"
+                            onClick={() => field.onChange(undefined)}
+                          >
+                            <MdDelete />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel className="font-semibold">Foto Background</FormLabel>
                   <FormControl>
                     <div className="relative flex justify-center items-center flex-col border-2 border-dotted border-gray-300 p-3 w-full rounded-md">
                       {!field.value ? (
