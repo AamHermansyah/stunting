@@ -9,10 +9,10 @@ function Experts() {
           <div className="w-full flex items-center gap-4">
             <div className="relative w-20 aspect-square rounded-full bg-gray-100 overflow-hidden">
               <Image
-                src="/next.svg" 
-                alt="logo" 
-                fill={true} 
-                className="object-contain" 
+                src="/next.svg"
+                alt="logo"
+                fill={true}
+                className="object-contain"
               />
             </div>
             <div className="col-span-2">
@@ -24,7 +24,7 @@ function Experts() {
               </span>
             </div>
           </div>
-      </div>
+        </div>
       ))}
     </div>
   )

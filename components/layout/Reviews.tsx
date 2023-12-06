@@ -53,7 +53,7 @@ const Reviews = () => {
                 <div className="w-full flex items-center gap-4 text-lg text-gray-900">
                   <img
                     className="w-16 h-16 rounded-full"
-                    src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
+                    src="https://source.unsplash.com/random/300x300?/?people"
                     alt="Michael Gough"
                   />
                   <div>

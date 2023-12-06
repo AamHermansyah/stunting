@@ -68,6 +68,26 @@ function page() {
         </div>
         <div className="pt-4">
           {/* <Description /> */}
+          <div className="bg-gradient-to-tr from-primary to-sky-500 rounded p-4 max-w-sm">
+            <div className="w-full flex items-center gap-4">
+              <div className="relative w-20 aspect-square rounded-full bg-gray-100 overflow-hidden">
+                <Image
+                  src="/next.svg"
+                  alt="logo"
+                  fill={true}
+                  className="object-contain"
+                />
+              </div>
+              <div className="col-span-2">
+                <span className="text-white font-bold text-sm">Terdapat</span>
+                <h3 className="text-white font-bold">
+                  <span className="inline-block text-4xl">10</span> Tenaga Ahli Gizi
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="pt-4">
           <h1 className="text-xl font-semibold py-2">Deskripsi</h1>
           <div id="article-detail">
             <p>
