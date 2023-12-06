@@ -40,17 +40,21 @@ function LoginPage() {
   const onSubmit = (data: z.infer<typeof formSchema>) => {
     // fetch('/api/auth/create-admin', {
     //   body: JSON.stringify({
-    //     "name": "Aam Hermansyah",
-    //     "email": "amzhermanzyah@gmail.com",
+    //     "name": "Admin",
+    //     "email": "stunting@official.id",
     //     "password": "Asdf1234_",
     //   }),
     //   method: 'POST'
     // })
     //   .then((res) => res.json())
-    //   .then((res) => console.log(res))
-    //   .catch((error) => {
-    //     console.log(error);
+    //   .then((res) => {
+    //     alert('Akun admin berhasil dibuat');
     //   })
+    //   .catch((error) => {
+    //     alert(error.message);
+    //   });
+
+    // return;
 
     setLoading(true);
     setIsInvalidCredential(false);

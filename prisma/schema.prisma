@@ -19,6 +19,8 @@ model Article {
   created_at DateTime @default(now())
   author     User     @relation(fields: [authorId], references: [id])
   authorId   Int
+
+  @@index([authorId])
 }
 
 model User {

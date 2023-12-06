@@ -1,9 +1,9 @@
-import { Article } from '@/app/artikel/index.types';
 import { useEffect, useState } from 'react'
 import { useToast } from '../ui/use-toast';
 import CardArtikel from '../CardArtikel';
 import { ImSpinner6 } from 'react-icons/im';
 import { FaFaceSadCry } from 'react-icons/fa6';
+import { Article } from '@/index.types';
 
 type propTypes = {
   category: string;

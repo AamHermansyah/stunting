@@ -10,7 +10,7 @@ const Hero = () => {
             Hayu baraya urang nyegah stunting!
           </h2>
           <p className="sm:text-lg">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio in iusto perferendis corrupti fugiat rerum ut, voluptates possimus temporibus autem.
+            Stunting merujuk pada kondisi gagal pertumbuhan pada anak akibat kekurangan gizi kronis. Oleh karena itu, upaya dalam melakukan pemantauan dan penanganan stunting.
           </p>
           <Button href="/cek-stunting" className="w-max">Cek Stunting</Button>
         </div>
