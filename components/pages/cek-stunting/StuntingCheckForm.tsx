@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DatePicker } from "@/components/core/DatePicker";
-import { formatDateToYYYYMMDD } from "@/lib/utils";
+import { calculateMonthsDifference, formatDateToYYYYMMDD } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -27,6 +27,10 @@ import {
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { kecamatanList } from "@/constants";
+import { useToast } from "@/components/ui/use-toast";
+import { VscLoading } from "react-icons/vsc";
+import { RowCSVStuntingCheck } from "@/index.types";
+import useStuntingCheck from "@/stores/stuntingStore";
 
 const formSchema = z.object({
   fullname: z.string().min(2, {
@@ -35,7 +39,7 @@ const formSchema = z.object({
   district: z.string().min(3, {
     message: "District must be at least 3 characters.",
   }),
-  gender: z.enum(["male", "female"]),
+  gender: z.enum(["boy", "girl"]),
   weight: z.string().refine((value) => {
     const numericValue = parseFloat(value);
     return !isNaN(numericValue) && numericValue > 0;
@@ -61,14 +65,101 @@ const formSchema = z.object({
 
 const StuntingCheckForm = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useRouter();
+
+  const { results, baby, setResults, setBaby } = useStuntingCheck();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
-  })
+  });
+  const { toast } = useToast();
+
+  const handleBBU = (row: RowCSVStuntingCheck, weight: number) => {
+    const { SDsNeg, SDsPos } = row;
+
+    if (weight < SDsNeg[0]) {
+      return {
+        status: 'danger',
+        message: 'Berat badan sangat kurang (severely underweight)'
+      };
+    } else if (weight >= SDsNeg[0] && weight < SDsNeg[1]) {
+      return {
+        status: 'semi-danger',
+        message: 'Berat badan kurang (underweight)'
+      };
+    } else if (weight >= SDsNeg[1] && weight <= SDsPos[0]) {
+      return {
+        status: 'normal',
+        message: 'Berat badan normal'
+      };
+    } else {
+      return {
+        status: 'danger',
+        message: 'Risiko berat badan lebih'
+      };
+    }
+  };
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    setModalOpen(true);
+    const age = calculateMonthsDifference(data.DOB);
+
+    if (age > 60) {
+      return toast({
+        title: 'Umur bayi melebihi batas!',
+        description: 'Sistem kami hanya dapat melakukan pengecekan sampai umur 5 tahun.',
+        variant: 'destructive'
+      });
+    }
+
+    setLoading(true);
+
+    fetch(`/api/zscore/BBU?gender=${data.gender}`)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          const selectedRow = res.data[age];
+
+          if (selectedRow.month === age) {
+            const result = handleBBU(selectedRow, +data.weight);
+
+            setResults({
+              BBU: {
+                ...selectedRow,
+                weight: data.weight,
+                result: result.message,
+                status: result.status
+              }
+            });
+
+            setBaby(data);
+
+            setModalOpen(true);
+            return;
+          }
+
+          toast({
+            title: 'Terjadi kesalahan data.',
+            description: 'Terdapat ketidaksesuaian data. Hubungi admin.',
+            variant: 'destructive'
+          });
+          return;
+        }
+
+        toast({
+          title: 'Error: ' + res.status,
+          description: res.message,
+          variant: 'destructive'
+        });
+      })
+      .catch((error) => {
+        toast({
+          title: 'Error',
+          description: (error as Error).message,
+          variant: 'destructive'
+        });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -77,14 +168,14 @@ const StuntingCheckForm = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="text-center text-3xl">
-              Selamat!
+              {results && results.BBU.status === 'normal' ? 'Selamat!' : 'Oh tidakk!'}
             </DialogTitle>
           </DialogHeader>
           <h1 className="text-7xl text-center py-4">
-            😊
+            {results && results.BBU.status === 'normal' ? '😊' : '😱'}
           </h1>
           <DialogDescription className="text-center text-gray-700">
-            Sistem kami menyatakan bahwa anak anda memiliki kondisi yang <b>normal</b>.
+            Sistem kami menyatakan bahwa anak anda terindikasi <b>{results && results.BBU.result}</b>.
           </DialogDescription>
           <Button
             onClick={() => navigate.push('/cek-stunting/hasil')}
@@ -101,10 +192,10 @@ const StuntingCheckForm = () => {
         <div className="col-span-6 lg:col-span-5 flex flex-col justify-center mb-10 md:mb-0">
           <h2 className="text-2xl md:text-4xl font-bold">Cek Status Stunting</h2>
           <p className="font-light mt-4 mb-6">
-            Mari bersama-sama mencegah stunting dan memastikan pertumbuhan anak-anak kita yang sehat dan optimal. Cegah stunting dengan memberikan pola makan yang seimbang dan bergizi tinggi, yang terdiri dari makanan yang kaya akan vitamin dan mineral. Pastikan juga anak-anak kita mendapatkan ASI eksklusif selama enam bulan pertama kehidupan mereka. 
+            Mari bersama-sama mencegah stunting dan memastikan pertumbuhan anak-anak kita yang sehat dan optimal. Cegah stunting dengan memberikan pola makan yang seimbang dan bergizi tinggi, yang terdiri dari makanan yang kaya akan vitamin dan mineral. Pastikan juga anak-anak kita mendapatkan ASI eksklusif selama enam bulan pertama kehidupan mereka.
           </p>
         </div>
-        <div className="max-w-[600px] col-span-6 lg:col-span-7 min-h-[450px] overflow-y-auto pl-4 md:pl-10 pr-2 custom-scrollbar">
+        <div className="md:max-w-[600px] col-span-6 lg:col-span-7 min-h-[450px] overflow-y-auto pl-4 md:pl-10 pr-2 custom-scrollbar">
           {/* @ts-ignore */}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-2 gap-2">
@@ -146,7 +237,7 @@ const StuntingCheckForm = () => {
                               <SelectGroup>
                                 <SelectLabel>Kecamatan</SelectLabel>
                                 {kecamatanList.map((item) => (
-                                  <SelectItem 
+                                  <SelectItem
                                     value={item.value}
                                     key={item.id}
                                   >
@@ -175,7 +266,7 @@ const StuntingCheckForm = () => {
                         <FormControl>
                           <Select
                             {...inputField}
-                            onValueChange={(value: 'male' | 'female') => {
+                            onValueChange={(value: 'boy' | 'girl') => {
                               form.setValue('gender', value);
                             }}
                           >
@@ -184,9 +275,9 @@ const StuntingCheckForm = () => {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectGroup>
-                                <SelectLabel>Kecamatan</SelectLabel>
-                                <SelectItem value="male">Laki laki</SelectItem>
-                                <SelectItem value="female">Perempuan</SelectItem>
+                                <SelectLabel>Gender</SelectLabel>
+                                <SelectItem value="boy">Laki laki</SelectItem>
+                                <SelectItem value="girl">Perempuan</SelectItem>
                               </SelectGroup>
                             </SelectContent>
                           </Select>
@@ -236,8 +327,8 @@ const StuntingCheckForm = () => {
                       <FormLabel>Tanggal Lahir</FormLabel>
                       <FormControl>
                         <DatePicker
+                          disableFutureDate={true}
                           onChange={(date) => {
-                            console.log(date);
                             form.setValue('DOB', formatDateToYYYYMMDD(date));
                           }}
                         />
@@ -264,7 +355,9 @@ const StuntingCheckForm = () => {
               </div>
               <div>
                 <Button type="submit" className="mt-4">
-                  Cek Sekarang
+                  {!loading ? 'Cek Sekarang' : (
+                    <VscLoading fontSize={24} className="animate-spin" />
+                  )}
                 </Button>
               </div>
             </form>

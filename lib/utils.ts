@@ -59,3 +59,19 @@ export function formatCreatedAt(created_at: string): string {
   return formattedDate;
 }
 
+export function calculateMonthsDifference(targetDate: string): number {
+  // Convert the target date to a Date object
+  const target = new Date(targetDate);
+
+  // Current date
+  const currentDate = new Date();
+
+  // Calculate the difference in months
+  const diffInMonths = (currentDate.getFullYear() - target.getFullYear()) * 12 +
+    (currentDate.getMonth() - target.getMonth());
+
+  // Round down to the nearest integer
+  const roundedMonths = Math.floor(diffInMonths);
+
+  return roundedMonths;
+}

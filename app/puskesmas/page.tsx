@@ -5,13 +5,23 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { kecamatanList } from '@/constants'
+import useUserStore from '@/stores/userStore'
 import React from 'react'
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai'
 
-function page() {
+function PuskesmasPage() {
+  const { user } = useUserStore();
+
   return (
     <div className="py-4">
-      <h4 className="text-2xl font-bold">Cari Puskesmas Terdekat</h4>
+      <div className="flex items-end justify-between gap-4 mb-4">
+        <h4 className="text-2xl font-bold">Cari Puskesmas Terdekat</h4>
+        {user && user.role === 'admin' && (
+          <Button href="/puskesmas/add" className="inline-flex gap-2 items-center">
+            Tambah Puskesmas
+          </Button>
+        )}
+      </div>
       <div className="my-2 max-w-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2">
         <div className="lg:col-span-2">
           <Input placeholder="Cari disini..." name="search" />
@@ -25,7 +35,7 @@ function page() {
               <SelectGroup>
                 <SelectLabel>Kecamatan</SelectLabel>
                 {kecamatanList.map((item) => (
-                  <SelectItem 
+                  <SelectItem
                     value={item.value}
                     key={item.id}
                   >
@@ -58,4 +68,4 @@ function page() {
   )
 }
 
-export default page
+export default PuskesmasPage

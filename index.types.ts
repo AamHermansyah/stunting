@@ -21,3 +21,20 @@ export type User = {
   role: 'admin' | 'user';
   created_at: Date;
 };
+
+export type RowCSVStuntingCheck = {
+  month: number;
+  mean: number;
+  SDsNeg: number[];
+  SDsPos: number[];
+};
+
+export type BabyInformation = {
+  fullname: string;
+  district: string;
+  gender: 'boy' | 'girl';
+  weight: string;
+  height: string;
+  DOB: string;
+  headCircumference: string;
+};

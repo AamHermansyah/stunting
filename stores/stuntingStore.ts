@@ -1,0 +1,37 @@
+import { BabyInformation, RowCSVStuntingCheck } from '@/index.types';
+import create from 'zustand';
+
+
+
+type stuntingInformation = RowCSVStuntingCheck & {
+  result: string;
+  weight: number;
+  status: 'danger' | 'semi-danger' | 'warning' | 'normal';
+}
+
+
+type Results = {
+  BBU: stuntingInformation;
+}
+
+interface StuntingCheckState {
+  results: null | Results;
+  baby: null | BabyInformation;
+  setResults: (results: null | Results) => void;
+  setBaby: (baby: null | BabyInformation) => void;
+}
+
+const useStuntingCheck = create<StuntingCheckState>((set) => {
+  return ({
+    results: null,
+    baby: null,
+    setResults: (results) => {
+      set({ results });
+    },
+    setBaby: (data) => {
+      set({ baby: data });
+    },
+  })
+});
+
+export default useStuntingCheck;

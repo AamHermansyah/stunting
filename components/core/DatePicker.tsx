@@ -14,10 +14,11 @@ import {
 } from "@/components/ui/popover"
 
 type typeProps = {
-  onChange: (date: Date | undefined) => void
+  onChange: (date: Date | undefined) => void;
+  disableFutureDate?: boolean;
 }
 
-export function DatePicker({ onChange }: typeProps) {
+export function DatePicker({ onChange, disableFutureDate }: typeProps) {
   const [date, setDate] = React.useState<Date>();
   const [openCalendar, setOpenCalendar] = React.useState(false);
 
@@ -42,6 +43,10 @@ export function DatePicker({ onChange }: typeProps) {
           onSelect={(date) => {
             setDate(date);
             onChange(date);
+          }}
+          disabled={(date) => {
+            if (disableFutureDate) return date > new Date() || date < new Date("1900-01-01");
+            return false;
           }}
           initialFocus
         />

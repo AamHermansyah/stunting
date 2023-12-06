@@ -1,7 +1,29 @@
 import { Button } from '@/components/ui/button'
+import { BabyInformation } from '@/index.types'
+import { cn } from '@/lib/utils';
 import React from 'react'
 
-function ResultCheck() {
+type propTypes = {
+  data: BabyInformation;
+  result: string;
+  status: string;
+}
+
+function ResultCheck({ data, result, status }: propTypes) {
+  let statusColor;
+
+  switch (status) {
+    case 'danger':
+      statusColor = 'bg-red-500';
+      break;
+    case 'semi-danger':
+      statusColor = 'bg-orange-400';
+      break;
+    default:
+      statusColor = 'bg-green-500';
+      break;
+  }
+
   return (
     <div className="max-w-md rounded-lg mx-auto px-6 sm:px-10 py-8 bg-primary text-white">
       <h1 className="text-center uppercase text-xl sm:text-2xl font-bold">Hasil Pemeriksaan</h1>
@@ -9,42 +31,43 @@ function ResultCheck() {
         <li className="text-sm sm:text-base flex items-start gap-4">
           <span className="font-bold w-[105px] sm:w-[120px]">Nama</span>
           :
-          <span>Aam Hermansyah</span>
+          <span>{data.fullname}</span>
         </li>
         <li className="text-sm sm:text-base flex items-start gap-4">
           <span className="font-bold w-[105px] sm:w-[120px]">Tanggal Lahir</span>
           :
-          <span>03 Maret 2010</span>
+          <span>{data.DOB}</span>
         </li>
         <li className="text-sm sm:text-base flex items-start gap-4">
           <span className="font-bold w-[105px] sm:w-[120px]">Kecamatan</span>
           :
-          <span>Kahuripan</span>
+          <span>{data.district}</span>
         </li>
         <li className="text-sm sm:text-base flex items-start gap-4">
           <span className="font-bold w-[105px] sm:w-[120px]">Jenis Kelamin</span>
           :
-          <span>Laki laki</span>
+          <span>{data.gender}</span>
         </li>
         <li className="text-sm sm:text-base flex items-start gap-4">
           <span className="font-bold w-[105px] sm:w-[120px]">Berat Badan</span>
           :
-          <span>20kg</span>
+          <span>{data.weight}kg</span>
         </li>
         <li className="text-sm sm:text-base flex items-start gap-4">
           <span className="font-bold w-[105px] sm:w-[120px]">Tinggi Badan</span>
           :
-          <span>40cm</span>
+          <span>{data.height}cm</span>
         </li>
         <li className="text-sm sm:text-base flex items-start gap-4">
           <span className="font-bold w-[105px] sm:w-[120px]">Lingkar Kepala</span>
           :
-          <span>20cm</span>
+          <span>{data.headCircumference}cm</span>
         </li>
-        <li className="text-sm sm:text-base flex items-start gap-4">
-          <span className="font-bold w-[105px] sm:w-[120px]">Status</span>
-          :
-          <span className="p-1 rounded bg-red-500 text-sm">Obesitas</span>
+        <li className="text-sm sm:text-base flex flex-col items-center gap-1 pt-2">
+          <span className="font-bold">Status</span>
+          <span className={cn("p-1 rounded text-sm", statusColor)}>
+            {result}
+          </span>
         </li>
       </ul>
       <div className="text-center mt-6">
