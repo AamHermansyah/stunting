@@ -48,11 +48,9 @@ function PuskesmasPage() {
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-        {[1, 2, 3, 4].map((item) => (
-          <CardPuskesmas key={item} />
-        ))}
+        <CardPuskesmas />
       </div>
-      <div className="text-center">
+      {/* <div className="text-center">
         <div className="inline-flex mt-10 gap-2">
           <Button className="inline-flex gap-2 items-center">
             <AiOutlineArrowLeft fontSize={20} />
@@ -63,7 +61,7 @@ function PuskesmasPage() {
             <AiOutlineArrowRight fontSize={20} />
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
