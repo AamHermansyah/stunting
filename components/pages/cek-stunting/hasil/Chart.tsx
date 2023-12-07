@@ -105,7 +105,7 @@ const Chart = () => {
   return (
     <div>
       <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold sm:mb-10">
-        Jumlah Balita Obesitas Yang Tercatat Di Website Ini
+        Jumlah Balita Stunting Yang Tercatat Di Website Ini
       </h1>
       <ReactApexChart
         type="line"
