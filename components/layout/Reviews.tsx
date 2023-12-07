@@ -4,11 +4,31 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai"
 import { useState } from "react";
 import { Button } from "../ui/button";
 
-const data = [
-  'Aam Hermansyah',
-  'Ahmad Saepudin',
-  'Mark Zuckerbg',
-  'Elon Must'
+const reviews = [
+  {
+    id: 1,
+    name: 'Aam Hermansyah',
+    content: 'Pelayanan puskesmas Kawalu sangat memuaskan. Dokter dan perawatnya ramah dan profesional.',
+    imageUrl: 'man',
+  },
+  {
+    id: 2,
+    name: 'Ahmad Saepudin',
+    content: 'Puskesmas Kawalu memiliki fasilitas yang lengkap dan bersih. Pelayanan medisnya juga sangat baik.',
+    imageUrl: 'forest',
+  },
+  {
+    id: 3,
+    name: 'Niar Nuriyanti',
+    content: 'Saya sangat senang dengan pelayanan puskesmas Kawalu. Semua staffnya sangat membantu.',
+    imageUrl: 'hijab',
+  },
+  {
+    id: 3,
+    name: 'Dian Ramdani',
+    content: 'Puskesmas Kawalu memberikan pelayanan yang cepat dan efisien. Saya merasa aman dan nyaman.',
+    imageUrl: 'sunset',
+  },
 ]
 
 const Reviews = () => {
@@ -20,16 +40,17 @@ const Reviews = () => {
 
       <div className="flex flex-col sm:flex-row mt-4 place-items-center gap-4">
         <div className="basis-[50%] flex flex-col items-center justify-center space-y-2">
-          <h1 className="text-6xl md:text-7xl font-black text-primary">4,0</h1>
+          <h1 className="text-6xl md:text-7xl font-black text-primary">5,0</h1>
           <div className="flex gap-1 items-center text-orange-400 text-3xl sm:text-4xl">
             <AiFillStar />
             <AiFillStar />
             <AiFillStar />
             <AiFillStar />
-            <AiOutlineStar />
+            <AiFillStar />
+            {/* <AiOutlineStar /> */}
           </div>
           <h4 className="font-semibold text-muted-foreground">
-            37,4 Ribu Ulasan
+            10 Ulasan
           </h4>
         </div>
 
@@ -38,7 +59,10 @@ const Reviews = () => {
             <div key={rate} className="w-full flex items-center gap-4">
               <span className="font-semibold text-lg text-muted-foreground">{rate}</span>
               <div className="relative w-full h-3 bg-muted-foreground/10 rounded-full overflow-hidden">
-                <div className="absolute left-0 inset-y-0 w-[50%] bg-primary rounded-full" />
+                <div
+                  className="absolute left-0 inset-y-0 bg-primary rounded-full"
+                  style={{ width: rate * 10 + '%' }}
+                />
               </div>
             </div>
           ))}
@@ -48,17 +72,17 @@ const Reviews = () => {
       <section className="bg-white py-8 lg:py-16">
         <div className="w-full flex flex-col-reverse md:flex-row gap-4">
           <div className="md:basis-[50%] space-y-8 md:max-h-[600px] overflow-y-auto custom-scrollbar">
-            {data.map((name) => (
-              <div key={name}>
+            {reviews.map((review) => (
+              <div key={review.id}>
                 <div className="w-full flex items-center gap-4 text-lg text-gray-900">
                   <img
                     className="w-16 h-16 rounded-full"
-                    src="https://source.unsplash.com/random/300x300?/?people"
+                    src={`https://source.unsplash.com/random/300x300?/?${review.imageUrl}`}
                     alt="Michael Gough"
                   />
                   <div>
                     <h6>
-                      name
+                      {review.name}
                     </h6>
                     <time dateTime="2022-02-08" title="February 8th, 2022" className="text-sm text-gray-600">
                       Feb. 8, 2022
@@ -70,14 +94,12 @@ const Reviews = () => {
                   <AiFillStar />
                   <AiFillStar />
                   <AiFillStar />
-                  <AiOutlineStar />
+                  <AiFillStar />
+                  {/* <AiOutlineStar /> */}
                 </div>
                 <div className="mt-1.5">
                   <p className="text-gray-500 text-sm">
-                    Very straight-to-point article. Really worth time reading. Thank you!
-                    But tools are just the instruments for the UX designers. The knowledge
-                    of the design tools are as important as the creation of the design
-                    strategy.
+                    {review.content}
                   </p>
                 </div>
               </div>
@@ -115,7 +137,7 @@ const Reviews = () => {
                 className="w-full h-[200px] text-sm py-2 px-4 mb-4 bg-white rounded-lg border border-border focus:border-border focus:ring-0 focus:outline-none resize-none"
                 placeholder="Silahkan tulis review anda..."
               />
-              <Button>
+              <Button type="button">
                 Kirim Review
               </Button>
             </form>

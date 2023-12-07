@@ -18,13 +18,15 @@ import {
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
 import { Textarea } from '@/components/ui/textarea';
-import { artikelKategoriList, navigation, tagsArticle } from '@/constants';
+import { artikelKategoriList, kecamatanList, navigation, tagsArticle } from '@/constants';
 import { SelectCheckboxes } from '@/components/core/SelectCheckboxes';
 import { useState } from 'react';
 import { VscLoading } from 'react-icons/vsc';
@@ -38,6 +40,9 @@ import useUserStore from '@/stores/userStore';
 const formSchema = z.object({
   title: z.string().min(5, {
     message: "Title must be at least 5 characters.",
+  }),
+  district: z.string().min(3, {
+    message: "District must be at least 3 characters.",
   }),
   summary: z.string().max(200, {
     message: "Summary must be at most 200 characters.",
@@ -77,82 +82,7 @@ function ArticleAddPage() {
   if (!user || user?.role === 'user') return navigate.push('/');
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    const { image, ...otherData } = data;
-
-    if (data.image instanceof File) {
-      setAdding(true);
-
-      const reader = new FileReader();
-      reader.readAsDataURL(data.image);
-
-      reader.onload = () => {
-        const base64Image = reader.result as string;
-        const dataToSend = { ...otherData, image: base64Image };
-
-        fetch('/api/article', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-          },
-          body: JSON.stringify(dataToSend),
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            console.log(res);
-            switch (res.status) {
-              case 201:
-                toast({
-                  title: 'Berhasil!',
-                  description: 'Artikel berhasil ditambahkan.',
-                  variant: 'success'
-                });
-
-                setTimeout(() => {
-                  navigate.push('/artikel');
-                }, 1000);
-                break;
-              case 500:
-                toast({
-                  title: 'Error!',
-                  description: 'Artikel gagal diunggah. Coba beberapa saat lagi!',
-                  variant: 'destructive'
-                });
-                break;
-              case 403:
-                toast({
-                  title: 'Error!',
-                  description: 'Anda tidak dapat melakukan aksi ini!',
-                  variant: 'destructive'
-                });
-                break;
-              default:
-                toast({
-                  title: 'Error!',
-                  description: res?.message || 'Terjadi kesalahan, coba beberapa saat lagi!',
-                  variant: 'destructive'
-                });
-                break;
-            }
-          })
-          .catch((error) => {
-            toast({
-              title: 'Error',
-              description: (error as Error).message,
-              variant: 'destructive'
-            });
-          })
-          .finally(() => setAdding(false));
-      };
-
-      reader.onerror = (error) => {
-        toast({
-          title: 'Error',
-          description: 'Error reading image',
-          variant: 'destructive'
-        });
-      };
-    }
+    console.log(data);
   };
 
   return (
@@ -166,71 +96,56 @@ function ArticleAddPage() {
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem className="col-span-2">
+                <FormItem>
                   <FormLabel className="font-semibold">Nama Puskesmas</FormLabel>
                   <FormControl>
-                    <Input placeholder="Silahkan masukan nama puskesmas..." {...field} />
+                    <Input placeholder="Masukan nama puskesmas" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem className="col-span-2">
-                  <FormLabel className="font-semibold">Alamat Puskesmas</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Silahkan masukan alamat puskesmas..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem className="col-span-2">
-                  <FormLabel className="font-semibold">Kontak</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Silahkan masukan kontak puskesmas..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem className="col-span-2">
-                  <FormLabel className="font-semibold">Jumlah Tenaga Kerja</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Silahkan masukan Jumlah Teanga Kerja puskesmas..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem className="col-span-2">
-                  <FormLabel className="font-semibold">Url Alamat</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Silahkan masukan Url alamat puskesmas..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div>
+              <FormField
+                control={form.control}
+                name="district"
+                render={({ field }) => {
+                  const inputField = { onBlur: field.onBlur, value: field.value, name: field.name }
+                  return (
+                    <FormItem>
+                      <FormLabel>Kecamatan</FormLabel>
+                      <FormControl>
+                        <Select
+                          {...inputField}
+                          onValueChange={(value) => {
+                            form.setValue('district', value);
+                          }}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Pilih Kecamatan" />
+                          </SelectTrigger>
+                          <SelectContent className="max-h-[160px]">
+                            <SelectGroup>
+                              <SelectLabel>Kecamatan</SelectLabel>
+                              {kecamatanList.map((item) => (
+                                <SelectItem
+                                  value={item.value}
+                                  key={item.id}
+                                >
+                                  {item.label}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )
+                }}
+              />
+            </div>
 
             <FormField
               control={form.control}
@@ -353,7 +268,63 @@ function ArticleAddPage() {
                 </FormItem>
               )}
             />
-            
+
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold">Alamat Puskesmas</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Masukan alamat" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold">Kontak</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Masukan kontak" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold">Jumlah Tenaga Kerja</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Masukan jumlah tenaga kerja" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-semibold">Url Google Maps</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Masukan url alamat" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="content"

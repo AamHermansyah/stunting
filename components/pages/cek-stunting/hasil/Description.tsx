@@ -1,6 +1,26 @@
-import React from 'react'
+import { StuntingStatus } from "@/index.types";
+import { cn } from "@/lib/utils";
 
-function Description() {
+type propTypes = {
+  status: StuntingStatus;
+  result: string;
+}
+
+function Description({ status, result }: propTypes) {
+  let statusColor;
+
+  switch (status) {
+    case 'danger':
+      statusColor = 'bg-red-500';
+      break;
+    case 'semi-danger':
+      statusColor = 'bg-orange-400';
+      break;
+    default:
+      statusColor = 'bg-green-500';
+      break;
+  }
+
   return (
     <div className="max-w-[900px] mx-auto">
       <div>
@@ -10,10 +30,12 @@ function Description() {
         <div className="text-gray-600">
           <div className="font-bold mt-3 flex items-center gap-3">
             Status Gizi Balita:
-            <span className="p-1 rounded bg-red-500 text-white font-normal">Obesitas</span>
+            <span className={cn("p-1 rounded text-white font-normal", statusColor)}>
+              {result}
+            </span>
           </div>
           <p className="mt-1 text-justify">
-            Anak Anda tergolong dalam kategori obesitas. Obesitas adalah kondisi ketika pertumbuhan anak terhambat dan tinggi badan tidak mencapai tingkat yang sesuai dengan usianya. Kondisi ini dapat mempengaruhi kesehatan dan perkembangan balita secara keseluruhan. Penting untuk segera mengambil tindakan untuk mencegah dampak jangka panjang dari obesitas ini.
+            {status === 'normal' ? 'Anak anda tergolong dalam kategori tidak mengalami stunting (normal)' : 'Anak anda tergolong dalam kategori stunting'}. Stunting adalah kondisi ketika pertumbuhan anak terhambat dan tinggi badan tidak mencapai tingkat yang sesuai dengan usianya. Kondisi ini dapat mempengaruhi kesehatan dan perkembangan balita secara keseluruhan. Penting untuk segera mengambil tindakan untuk mencegah dampak jangka panjang dari stunting ini.
           </p>
         </div>
       </div>

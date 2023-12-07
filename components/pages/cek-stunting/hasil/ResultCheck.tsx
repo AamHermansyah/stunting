@@ -1,12 +1,12 @@
 import { Button } from '@/components/ui/button'
-import { BabyInformation } from '@/index.types'
+import { BabyInformation, StuntingStatus } from '@/index.types'
 import { cn } from '@/lib/utils';
 import React from 'react'
 
 type propTypes = {
   data: BabyInformation;
   result: string;
-  status: string;
+  status: StuntingStatus;
 }
 
 function ResultCheck({ data, result, status }: propTypes) {

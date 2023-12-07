@@ -38,3 +38,5 @@ export type BabyInformation = {
   DOB: string;
   headCircumference: string;
 };
+
+export type StuntingStatus = 'danger' | 'semi-danger' | 'warning' | 'normal';

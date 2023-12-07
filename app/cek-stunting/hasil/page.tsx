@@ -38,7 +38,10 @@ function HasilPage() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-10">
         <div className="md:col-span-2">
-          <Description />
+          <Description
+            status={results.BBU.status}
+            result={results.BBU.result}
+          />
         </div>
         <div>
           <Article />

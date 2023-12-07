@@ -1,4 +1,4 @@
-import { BabyInformation, RowCSVStuntingCheck } from '@/index.types';
+import { BabyInformation, RowCSVStuntingCheck, StuntingStatus } from '@/index.types';
 import create from 'zustand';
 
 
@@ -6,7 +6,7 @@ import create from 'zustand';
 type stuntingInformation = RowCSVStuntingCheck & {
   result: string;
   weight: number;
-  status: 'danger' | 'semi-danger' | 'warning' | 'normal';
+  status: StuntingStatus;
 }
 
 
