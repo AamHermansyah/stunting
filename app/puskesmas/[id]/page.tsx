@@ -50,7 +50,7 @@ function page() {
         <img
           src="https://www.depkes.org/wp-content/uploads/2022/10/foto-outlet-puskesmas-kawalu-di-kawalu-tasikmalaya-1665542349.jpeg"
           alt="expert"
-          fill={true}
+          // fill={true}
           className="object-cover w-full h-full"
         />
       </div>
@@ -60,7 +60,7 @@ function page() {
             <img
               src="https://www.depkes.org/wp-content/uploads/2022/10/foto-puskesmas-dari-sehatnegeriku-kemkes-ri.jpg"
               alt="logo"
-              fill={true}
+              // fill={true}
               className="object-cover w-full h-full"
             />
           </div>
