@@ -16,27 +16,27 @@ import {
 import { HiMenu } from 'react-icons/hi'
 import { IoMdClose } from 'react-icons/io'
 import { Button } from '../ui/button';
-import useUserStore from '@/stores/userStore';
+// import useUserStore from '@/stores/userStore';
 import { useToast } from '../ui/use-toast';
 
 function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
-  const { user, removeUserAndToken } = useUserStore();
+  // const { user, removeUserAndToken } = useUserStore();
   const { toast } = useToast();
 
-  const handleLogout = () => {
-    removeUserAndToken();
-    toast({
-      title: 'Logout berhasil!',
-      description: 'Silahkan login kembali untuk menggunakan fitur admin!',
-      variant: 'destructive'
-    });
-  }
+  // const handleLogout = () => {
+  //   removeUserAndToken();
+  //   toast({
+  //     title: 'Logout berhasil!',
+  //     description: 'Silahkan login kembali untuk menggunakan fitur admin!',
+  //     variant: 'destructive'
+  //   });
+  // }
 
   return (
     <header className="fixed left-0 top-0 w-full z-50 bg-white shadow-md">
-      <div className="container mx-auto flex items-center justify-between px-4 md:px-6 lg:px-12 py-4">
+      <div className="container mx-auto flex items-center justify-between px-4 md:px-6 lg:px-12 py-3">
         <div className="font-bold">
           <Link href="/" className="text-primary">Stunting App</Link>
         </div>
@@ -50,10 +50,16 @@ function Header() {
               {item.title}
             </Link>
           ))}
-          {user && (
-            <Button onClick={handleLogout} className="bg-destructive text-destructive-foreground hover:bg-destructive">
+          {false ? (
+            <Button className="bg-destructive text-destructive-foreground hover:bg-destructive">
               Logout
             </Button>
+          ) : (
+            <Link href='/auth/login'>
+              <Button size="sm" className="px-4">
+                Login
+              </Button>
+            </Link>
           )}
         </nav>
         <div className="block sm:hidden">
@@ -75,10 +81,16 @@ function Header() {
                 </DropdownMenuItem>
               ))}
               <DropdownMenuItem>
-                {user && (
-                  <Button size="sm" onClick={handleLogout} className="w-full bg-destructive text-destructive-foreground hover:bg-destructive">
+                {false ? (
+                  <Button size="sm" className="w-full bg-destructive text-destructive-foreground hover:bg-destructive">
                     Logout
                   </Button>
+                ) : (
+                  <Link href='/auth/login'>
+                    <Button size="sm" className="w-full">
+                      Login
+                    </Button>
+                  </Link>
                 )}
               </DropdownMenuItem>
             </DropdownMenuContent>

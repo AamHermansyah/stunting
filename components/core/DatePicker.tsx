@@ -16,10 +16,24 @@ import {
 type typeProps = {
   onChange: (date: Date | undefined) => void;
   disableFutureDate?: boolean;
+  className?: string;
+  placeholder?: string;
+  disabledCustomDate?: {
+    date: Date,
+    type: 'prev' | 'next'
+  } | null,
+  defaultValue?: Date;
 }
 
-export function DatePicker({ onChange, disableFutureDate }: typeProps) {
-  const [date, setDate] = React.useState<Date>();
+export function DatePicker({
+  onChange,
+  disableFutureDate,
+  placeholder,
+  disabledCustomDate,
+  defaultValue,
+  className = ''
+}: typeProps) {
+  const [date, setDate] = React.useState<Date | undefined>(defaultValue);
   const [openCalendar, setOpenCalendar] = React.useState(false);
 
   return (
@@ -29,11 +43,12 @@ export function DatePicker({ onChange, disableFutureDate }: typeProps) {
           variant={"outline"}
           className={cn(
             "w-full justify-start text-left font-normal",
-            !date && "text-muted-foreground"
+            !date && "text-muted-foreground",
+            className
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {date ? format(date, "PPP") : <span>{!placeholder ? 'Pick a date' : placeholder}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
@@ -46,12 +61,16 @@ export function DatePicker({ onChange, disableFutureDate }: typeProps) {
           }}
           disabled={(date) => {
             if (disableFutureDate) return date > new Date() || date < new Date("1900-01-01");
+            if (disabledCustomDate) {
+              const { type, date: customDate } = disabledCustomDate;
+              return type === 'prev' ? date < customDate : date > customDate
+            }
             return false;
           }}
           initialFocus
         />
         <div className="w-full flex justify-end px-4 pb-4">
-          <Button disabled={!date} onClick={() => setOpenCalendar(false)}>
+          <Button size="sm" disabled={!date} onClick={() => setOpenCalendar(false)}>
             Save
           </Button>
         </div>

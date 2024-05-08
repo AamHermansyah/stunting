@@ -1,14 +1,11 @@
 import { BabyInformation, RowCSVStuntingCheck, StuntingStatus } from '@/index.types';
 import create from 'zustand';
 
-
-
 type stuntingInformation = RowCSVStuntingCheck & {
   result: string;
   weight: number;
   status: StuntingStatus;
 }
-
 
 type Results = {
   BBU: stuntingInformation;

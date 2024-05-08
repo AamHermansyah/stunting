@@ -31,37 +31,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { VscLoading } from "react-icons/vsc";
 import { RowCSVStuntingCheck } from "@/index.types";
 import useStuntingCheck from "@/stores/stuntingStore";
-
-const formSchema = z.object({
-  fullname: z.string().min(2, {
-    message: "Fullname must be at least 2 characters.",
-  }),
-  district: z.string().min(3, {
-    message: "District must be at least 3 characters.",
-  }),
-  gender: z.enum(["boy", "girl"]),
-  weight: z.string().refine((value) => {
-    const numericValue = parseFloat(value);
-    return !isNaN(numericValue) && numericValue > 0;
-  }, {
-    message: "Weight must be a positive number.",
-  }),
-  height: z.string().refine((value) => {
-    const numericValue = parseFloat(value);
-    return !isNaN(numericValue) && numericValue > 0;
-  }, {
-    message: "Height must be a positive number.",
-  }),
-  DOB: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
-    message: "DOB must be in the format YYYY-MM-DD.",
-  }),
-  headCircumference: z.string().refine((value) => {
-    const numericValue = parseFloat(value);
-    return !isNaN(numericValue) && numericValue > 0;
-  }, {
-    message: "Head circumference must be a positive number.",
-  }),
-});
+import { stuntingCheckSchema } from "@/schemas";
 
 const StuntingCheckForm = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -70,8 +40,8 @@ const StuntingCheckForm = () => {
 
   const { results, baby, setResults, setBaby } = useStuntingCheck();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema)
+  const form = useForm<z.infer<typeof stuntingCheckSchema>>({
+    resolver: zodResolver(stuntingCheckSchema)
   });
   const { toast } = useToast();
 
@@ -101,7 +71,7 @@ const StuntingCheckForm = () => {
     }
   };
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const onSubmit = (data: z.infer<typeof stuntingCheckSchema>) => {
     const age = calculateMonthsDifference(data.DOB);
 
     if (age > 60) {
@@ -330,6 +300,7 @@ const StuntingCheckForm = () => {
                           disableFutureDate={true}
                           onChange={(date) => {
                             form.setValue('DOB', formatDateToYYYYMMDD(date));
+                            form.trigger('DOB');
                           }}
                         />
                       </FormControl>
