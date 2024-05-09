@@ -4,11 +4,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-type propTypes = {
+type PropTypes = {
   data: Article
 }
 
-function CardArtikel({ data }: propTypes) {
+function CardArtikel({ data }: PropTypes) {
   return (
     <div className="mb-4 sm:mb-8">
       <Link href={`/artikel/${data.id}`} className="relative block w-full aspect-video rounded bg-gray-100 mb-1 overflow-hidden">

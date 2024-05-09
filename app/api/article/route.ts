@@ -38,7 +38,7 @@ export async function POST(req: Request) {
   }
 
   // 4. Periksa apakah role yang ditemukan adalah "admin"
-  if (userData && userData.role !== 'admin') {
+  if (userData && userData.role !== 'ADMIN') {
     return new Response(json({ message: 'Unauthorized', status: 403 }));
   }
 

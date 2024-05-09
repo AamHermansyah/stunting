@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button'
 import { IoLocationSharp } from 'react-icons/io5'
 import { AiFillStar } from 'react-icons/ai'
 import Image from 'next/image'
+import Link from 'next/link'
 
 function CardPuskesmas() {
   return (
@@ -27,9 +28,11 @@ function CardPuskesmas() {
           <Button className="w-full mt-4">
             Mulai Konsultasi
           </Button>
-          <Button href="/puskesmas/1" variant="outline" className="w-full mt-2">
-            Detail
-          </Button>
+          <Link href="/puskesmas/1">
+            <Button variant="outline" className="w-full mt-2">
+              Detail
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

@@ -1,12 +1,12 @@
 import { StuntingStatus } from "@/index.types";
 import { cn } from "@/lib/utils";
 
-type propTypes = {
+type PropTypes = {
   status: StuntingStatus;
   result: string;
 }
 
-function Description({ status, result }: propTypes) {
+function Description({ status, result }: PropTypes) {
   let statusColor;
 
   switch (status) {

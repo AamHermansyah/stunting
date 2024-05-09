@@ -1,15 +1,16 @@
 import { Button } from '@/components/ui/button'
 import { BabyInformation, StuntingStatus } from '@/index.types'
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 import React from 'react'
 
-type propTypes = {
+type PropTypes = {
   data: BabyInformation;
   result: string;
   status: StuntingStatus;
 }
 
-function ResultCheck({ data, result, status }: propTypes) {
+function ResultCheck({ data, result, status }: PropTypes) {
   let statusColor;
 
   switch (status) {
@@ -71,9 +72,11 @@ function ResultCheck({ data, result, status }: propTypes) {
         </li>
       </ul>
       <div className="text-center mt-6">
-        <Button href="/cek-stunting" className="bg-white text-primary hover:bg-gray-100">
-          Cek Ulang
-        </Button>
+        <Link href="/cek-stunting">
+          <Button className="bg-white text-primary hover:bg-gray-100">
+            Cek Ulang
+          </Button>
+        </Link>
       </div>
     </div>
   )

@@ -19,13 +19,13 @@ type CheckedValue = {
   value: string;
 }[];
 
-type propTypes = {
+type PropTypes = {
   value?: CheckedValue;
   onChange?: (data: CheckedValue) => void;
   listItems: CheckedValue;
 }
 
-export function SelectCheckboxes({ value, onChange, listItems }: propTypes) {
+export function SelectCheckboxes({ value, onChange, listItems }: PropTypes) {
   const [checkedValue, setCheckedValue] = React.useState<CheckedValue>(value || []);
 
   const handleChecked = (item: CheckedValue[0]) => {

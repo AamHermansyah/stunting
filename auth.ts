@@ -3,6 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import authConfig from '@/auth.config'
 import { prisma } from "./db"
 import { getUserById } from "./data/user"
+import jwt from 'jsonwebtoken'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
@@ -32,12 +33,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     async session({ token, session }) {
-      if (token.sub && session.user) {
-        session.user.id = token.sub;
-      }
+      if (session.user) {
+        if (token.sub) {
+          session.user.id = token.sub;
+        }
 
-      if (token.role && session.user) {
-        session.user.role = token.role;
+        if (token.role) {
+          session.user.role = token.role;
+        }
+
+        if (token.token) {
+          session.user.token = token.token;
+        }
       }
 
       return session
@@ -49,7 +56,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (!existingUser) return token;
 
+      // Create and sign a JWT token
+      const tokenJWT = jwt.sign({ userId: existingUser.id }, process.env.NEXT_PUBLIC_JWT_SECRET_KEY as string, {
+        expiresIn: '7h', // You can adjust the expiration time as needed
+      });
+
       token.role = existingUser.role;
+      token.token = tokenJWT;
 
       return token
     },

@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 // ! To avoid 'Window is not defined' error
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
-type propTypes = {
+type PropTypes = {
   onChange: (htmlOutput: string) => void;
   value: string;
 }
@@ -24,7 +24,7 @@ const modules = {
   ],
 };
 
-export function RichtextEditor({ onChange, value }: propTypes) {
+export function RichtextEditor({ onChange, value }: PropTypes) {
   return (
     <ReactQuill
       modules={modules}

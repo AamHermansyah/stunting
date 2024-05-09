@@ -1,20 +1,19 @@
 'use client'
 
 import { RichtextEditor } from '@/components/core/RichtextEditor'
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
+import { useForm } from "react-hook-form"
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/components/ui/form"
 import {
   Select,
   SelectContent,
@@ -24,64 +23,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Input } from "@/components/ui/input";
-import { Textarea } from '@/components/ui/textarea';
-import { artikelKategoriList, kecamatanList, navigation, tagsArticle } from '@/constants';
-import { SelectCheckboxes } from '@/components/core/SelectCheckboxes';
-import { useState } from 'react';
-import { VscLoading } from 'react-icons/vsc';
-import { useToast } from '@/components/ui/use-toast';
-import { AiOutlineCloudUpload } from 'react-icons/ai';
-import { MdDelete } from 'react-icons/md';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import useUserStore from '@/stores/userStore';
-
-const formSchema = z.object({
-  title: z.string().min(5, {
-    message: "Title must be at least 5 characters.",
-  }),
-  district: z.string().min(3, {
-    message: "District must be at least 3 characters.",
-  }),
-  summary: z.string().max(200, {
-    message: "Summary must be at most 200 characters.",
-  }),
-  category: z.string().nonempty({
-    message: "Category must be not empty",
-  }),
-  tags: z.string().nonempty({
-    message: "Tags must be not empty",
-  }),
-  content: z.string().min(10, {
-    message: "Message must be at least 10 characters.",
-  }),
-  image: z
-    .custom<FileList[0] | undefined>()
-    .refine((file) => file && (!!file && file.size <= 10 * 1024 * 1024), {
-      message: "The profile picture must be a maximum of 10MB.",
-    })
-    .refine((file) => file && (!!file && file.type?.startsWith("image")), {
-      message: "Only images are allowed to be sent.",
-    }),
-  alt_image: z.string().min(10, {
-    message: "Message must be at least 10 characters.",
-  }),
-});
+import { Input } from "@/components/ui/input"
+import { kecamatanList } from '@/constants'
+import { useState } from 'react'
+import { VscLoading } from 'react-icons/vsc'
+import { AiOutlineCloudUpload } from 'react-icons/ai'
+import { MdDelete } from 'react-icons/md'
+import Image from 'next/image'
+import { puskesmasSchema } from '@/schemas'
 
 function ArticleAddPage() {
   const [adding, setAdding] = useState(false);
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema)
+  const form = useForm<z.infer<typeof puskesmasSchema>>({
+    resolver: zodResolver(puskesmasSchema)
   });
 
-  const { toast } = useToast();
-  const navigate = useRouter();
-  const { user, token } = useUserStore();
-
-  if (!user || user?.role === 'user') return navigate.push('/');
-
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
+  const onSubmit = (data: z.infer<typeof puskesmasSchema>) => {
     console.log(data);
   };
 

@@ -1,10 +1,18 @@
+'use client'
+
+import { logout } from '@/actions/logout';
+import { Button } from '@/components/ui/button';
 import { navigation } from '@/constants'
 import { cn } from '@/lib/utils'
+import { Session } from 'next-auth';
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
-import React from 'react'
 
-function NavHeaderLinks() {
+type PropTypes = {
+  user: Session['user'];
+}
+
+function NavHeaderLinks({ user }: PropTypes) {
   const pathname = usePathname();
 
   return (
@@ -18,6 +26,20 @@ function NavHeaderLinks() {
           {item.title}
         </Link>
       ))}
+      {!user ? (
+        <Link href='/auth/login'>
+          <Button size="sm" className="px-4">
+            Login
+          </Button>
+        </Link>
+      ) : (
+        <Button
+          className="bg-destructive text-destructive-foreground hover:bg-destructive"
+          onClick={() => logout()}
+        >
+          Logout
+        </Button>
+      )}
     </>
   )
 }

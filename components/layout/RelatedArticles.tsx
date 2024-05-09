@@ -5,12 +5,12 @@ import { ImSpinner6 } from 'react-icons/im';
 import { FaFaceSadCry } from 'react-icons/fa6';
 import { Article } from '@/index.types';
 
-type propTypes = {
+type PropTypes = {
   category: string;
   id: number;
 }
 
-function RelatedArticles({ category, id }: propTypes) {
+function RelatedArticles({ category, id }: PropTypes) {
   const [articles, setArticles] = useState<Article[] | null>(null);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import Link from "next/link"
 
 const Hero = () => {
   return (
@@ -12,7 +13,9 @@ const Hero = () => {
           <p className="sm:text-lg">
             Stunting merujuk pada kondisi gagal pertumbuhan pada anak akibat kekurangan gizi kronis. Oleh karena itu, upaya dalam melakukan pemantauan dan penanganan stunting.
           </p>
-          <Button href="/cek-stunting" className="w-max">Cek Stunting</Button>
+          <Link href="/cek-stunting">
+            <Button className="w-max">Cek Stunting</Button>
+          </Link>
         </div>
         <div className="relative w-full aspect-video bg-gray-300 rounded-lg mt-10 md:mt-0 overflow-hidden">
           <Image

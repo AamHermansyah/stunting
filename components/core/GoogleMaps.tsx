@@ -1,8 +1,8 @@
-type propTypes = {
+type PropTypes = {
   source: string;
 }
 
-function GoogleMaps({ source }: propTypes) {
+function GoogleMaps({ source }: PropTypes) {
   return (
     <iframe
       src={source}
