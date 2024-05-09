@@ -1,6 +1,5 @@
 'use client'
 
-import { useRouter } from "next/navigation"
 import { BiArrowBack } from "react-icons/bi"
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -22,12 +21,14 @@ import { loginSchema } from "@/schemas";
 import { FormError } from "@/components/FormError";
 import { FormSuccess } from "@/components/FormSuccess";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 function LoginPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl');
   const [isPending, startTransition] = useTransition();
-  const navigate = useRouter();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -41,10 +42,10 @@ function LoginPage() {
     setSuccess('');
 
     startTransition(() => {
-      login(values)
+      login(values, callbackUrl)
         .then((data) => {
-          setError(data.error || '');
-          setSuccess(data.success || '');
+          setError(data?.error || '');
+          setSuccess(data?.success || '');
         });
     });
   }
@@ -52,19 +53,18 @@ function LoginPage() {
   return (
     <section className="flex items-center justify-center">
       <div className="w-full max-w-xl mx-auto py-20">
-        <button
-          type="button"
+        <Link
+          href="/"
           className="text-sm flex items-center gap-2"
-          onClick={() => navigate.push('/')}
         >
           <BiArrowBack /> Back
-        </button>
+        </Link>
         <div>
           <h1 className="font-semibold text-gray-700 text-center text-lg">
             Selamat Datang Di
             <br />
             <span className="text-4xl text-primary">
-              Stunting App
+              Stunting.id
             </span>
           </h1>
           {/* @ts-ignore */}

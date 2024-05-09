@@ -23,6 +23,7 @@ type typeProps = {
     type: 'prev' | 'next'
   } | null,
   defaultValue?: Date;
+  type?: 'dropdown-buttons' | 'buttons';
 }
 
 export function DatePicker({
@@ -31,10 +32,14 @@ export function DatePicker({
   placeholder,
   disabledCustomDate,
   defaultValue,
-  className = ''
+  className = '',
+  type = 'buttons'
 }: typeProps) {
   const [date, setDate] = React.useState<Date | undefined>(defaultValue);
   const [openCalendar, setOpenCalendar] = React.useState(false);
+
+  const fromDate = new Date(1950, 0);
+  const toDate = new Date(new Date().getFullYear() - 15, 0);
 
   return (
     <Popover open={openCalendar} onOpenChange={setOpenCalendar}>
@@ -68,6 +73,20 @@ export function DatePicker({
             return false;
           }}
           initialFocus
+          captionLayout={type}
+          fromDate={fromDate}
+          toDate={toDate}
+          classNames={type === 'dropdown-buttons' ? {
+            caption_dropdowns: "w-full flex gap-2",
+            caption_label: "hidden",
+            vhidden: "hidden",
+            dropdown_icon: "hidden",
+            dropdown: "w-full rounded-lg",
+            nav_button_next: "absolute bottom-4 left-4 translate-x-[150%]",
+            nav_button_previous: "absolute bottom-4 left-4",
+            caption: "flex justify-center pt-1 items-center",
+          } : undefined}
+
         />
         <div className="w-full flex justify-end px-4 pb-4">
           <Button size="sm" disabled={!date} onClick={() => setOpenCalendar(false)}>

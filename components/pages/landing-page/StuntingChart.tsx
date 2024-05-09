@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import React from 'react';
 import { ApexOptions } from 'apexcharts';
@@ -123,6 +123,7 @@ const StuntingChart = () => {
       <ReactApexChart
         type="bar"
         height={400}
+        width="100%"
         options={options}
         series={data.series}
       />

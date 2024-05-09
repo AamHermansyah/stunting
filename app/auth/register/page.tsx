@@ -29,7 +29,7 @@ import { useState, useTransition } from "react"
 import { registerSchema } from "@/schemas"
 import { FormError } from "@/components/FormError"
 import { FormSuccess } from "@/components/FormSuccess"
-import { artikelKategoriList } from "@/constants"
+import { kecamatanList } from "@/constants"
 import { DatePicker } from "@/components/core/DatePicker"
 import { formatDateToYYYYMMDD } from "@/lib/utils"
 import Link from "next/link"
@@ -58,8 +58,9 @@ function RegisterPage() {
     startTransition(() => {
       register(values)
         .then((data) => {
-          setError(data.error || '');
-          setSuccess(data.success || '');
+          setError(data?.error || '');
+          setSuccess(data?.success || '');
+          form.reset();
         });
     });
   }
@@ -125,6 +126,7 @@ function RegisterPage() {
                     <FormLabel className="font-semibold">Tanggal Lahir</FormLabel>
                     <FormControl>
                       <DatePicker
+                        type="dropdown-buttons"
                         disableFutureDate={true}
                         onChange={(date) => {
                           form.setValue('dateOfBirth', formatDateToYYYYMMDD(date));
@@ -169,7 +171,7 @@ function RegisterPage() {
                       <SelectContent className="max-h-[250px]">
                         <SelectGroup>
                           <SelectLabel>Kecamatan</SelectLabel>
-                          {artikelKategoriList.map((item) => (
+                          {kecamatanList.map((item) => (
                             <SelectItem
                               value={item.value}
                               key={item.id}

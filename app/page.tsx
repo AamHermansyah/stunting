@@ -1,5 +1,3 @@
-'use client';
-
 import StuntingChart from "@/components/pages/landing-page/StuntingChart";
 import ContactForm from "@/components/pages/landing-page/ContactForm";
 import ExpertsSay from "@/components/pages/landing-page/ExpertSays";
